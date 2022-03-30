@@ -1,29 +1,61 @@
 package lab5.VehicleCollectionApp;
 
 import lab5.VehicleCollectionApp.Exceptions.CommandExecutionException;
+
+import java.io.*;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import java.io.IOException;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.FileInputStream;
+
+import lab5.VehicleCollectionApp.Exceptions.NullException;
 import lab5.VehicleCollectionApp.Vehicle.Vehicle;
+
 import java.util.LinkedHashMap;
 
 
-public class VehicleCollection
-{
+public class VehicleCollection {
     LinkedHashMap<String, Vehicle> collection;
+    String fileName = null;
 
     public VehicleCollection() {
         this.collection = new LinkedHashMap<String, Vehicle>();
     }
 
-    public void fillFromFile(String fileName) throws SecurityException, FileNotFoundException, IOException {
+    public void setFileName(String fileName) throws NullException {
+        if (fileName == null) throw new NullException("File name is NULL.");
+        this.fileName = fileName;
+    }
+
+    public void open() throws SecurityException, FileNotFoundException, IOException {
         InputStreamReader input = new InputStreamReader(new FileInputStream(fileName));
         input.close();
+    }
+
+    public void save() throws FileNotFoundException, IOException {
+        BufferedOutputStream output = new BufferedOutputStream(new FileOutputStream(fileName));
+
+        String data = "";
+
+        Set<String> keys = this.collection.keySet();
+        for (String key : keys) {
+            String s = key + "," +
+                    collection.get(key).getID() + ";" +
+                    collection.get(key).getName() + ";" +
+                    collection.get(key).getCoordinates().getXCoordinate() + ";" +
+                    collection.get(key).getCoordinates().getYCoordinate() + ";" +
+                    collection.get(key).getCreationDate() + ";" +
+                    collection.get(key).getEnginePower() + ";" +
+                    collection.get(key).getNumberOfWheels() + ";" +
+                    collection.get(key).getCapacity() + ";" +
+                    collection.get(key).getType().toString() + "\r\n";
+
+            data += s;
+        }
+
+        output.write(data.getBytes());
+        output.close();
+
+        System.out.println("Collection saved to " + fileName);
     }
 
     public void show() {
@@ -49,7 +81,7 @@ public class VehicleCollection
         }
 
         if (!flag) throw new CommandExecutionException("This key already exists.");
-        this.collection.put(newKey, new Vehicle((Set)IDList));
+        this.collection.put(newKey, new Vehicle((Set) IDList));
     }
 
     public void update(Long ID) throws CommandExecutionException {

@@ -17,7 +17,8 @@ public class VehicleCollectionApp
         final VehicleCollection collection = new VehicleCollection();
         try {
             final String file = EnvVarReader.getValue("VEHICLE_COLLECTION_PATH");
-            collection.fillFromFile(file);
+            collection.setFileName(file);
+            collection.open();
         }
         catch (Exception e) {
             System.out.println("Error occurred while reading file:");
@@ -39,6 +40,7 @@ public class VehicleCollectionApp
         commandList.put("update", new Update(collection));
         commandList.put("remove_key", new RemoveKey(collection));
         commandList.put("clear", new Clear(collection));
+        commandList.put("save", new Save(collection));
 
         System.out.println("Welcome to the Vehicle Collection App!");
 
