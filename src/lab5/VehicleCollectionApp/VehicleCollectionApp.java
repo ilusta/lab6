@@ -1,5 +1,6 @@
 package lab5.VehicleCollectionApp;
 
+import lab5.VehicleCollectionApp.Exceptions.EOFInputException;
 import lab5.VehicleCollectionApp.Exceptions.InputException;
 import lab5.VehicleCollectionApp.Commands.*;
 import java.util.HashMap;
@@ -54,6 +55,7 @@ public class VehicleCollectionApp
                 commandHistory.add(words[0]);
             }
             catch (Exception e) {
+                if(e.getClass() == EOFInputException.class) break;
                 System.out.println(e.getMessage());
             }
         }

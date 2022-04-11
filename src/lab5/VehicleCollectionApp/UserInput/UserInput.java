@@ -1,6 +1,9 @@
 package lab5.VehicleCollectionApp.UserInput;
 
+import lab5.VehicleCollectionApp.Exceptions.EOFInputException;
 import lab5.VehicleCollectionApp.Exceptions.InputException;
+
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.BufferedReader;
 
@@ -21,20 +24,22 @@ public class UserInput
         }
     }
 
-    public static String readLine() throws IOException {
-        return UserInput.reader.readLine();
+    public static String readLine() throws IOException, EOFInputException {
+        String str = UserInput.reader.readLine();
+        if(str == null) throw new EOFInputException("End of file");
+        return str;
     }
 
-    public static String getString(String inputName) throws IOException {
+    public static String getString(String inputName) throws IOException, EOFInputException {
         System.out.print("Enter " + inputName + ": ");
         return readLine();
     }
 
-    public static String getWord(String inputName) throws IOException {
+    public static String getWord(String inputName) throws IOException, EOFInputException {
         return getString(inputName).split(" +")[0];
     }
 
-    public static Integer getInteger(String inputName) throws IOException, InputException {
+    public static Integer getInteger(String inputName) throws IOException, InputException, EOFInputException {
         String input = getWord(inputName);
         if (input.equals("")) return null;
 
@@ -49,7 +54,7 @@ public class UserInput
         return i;
     }
 
-    public static Double getDouble(String inputName) throws IOException, InputException {
+    public static Double getDouble(String inputName) throws IOException, InputException, EOFInputException {
         String input = getWord(inputName);
         if (input.equals("")) return null;
 
@@ -64,7 +69,7 @@ public class UserInput
         return d;
     }
 
-    public static Long getLong(String inputName) throws IOException, InputException {
+    public static Long getLong(String inputName) throws IOException, InputException, EOFInputException {
         String input = getWord(inputName);
         if (input.equals("")) return null;
 

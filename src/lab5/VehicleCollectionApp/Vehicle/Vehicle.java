@@ -1,8 +1,12 @@
 package lab5.VehicleCollectionApp.Vehicle;
 
+import lab5.VehicleCollectionApp.Exceptions.EOFInputException;
+import lab5.VehicleCollectionApp.Exceptions.InputException;
 import lab5.VehicleCollectionApp.Exceptions.NegativeValueException;
 import lab5.VehicleCollectionApp.Exceptions.NullException;
 import lab5.VehicleCollectionApp.UserInput.UserInput;
+
+import java.io.IOException;
 import java.util.Set;
 import java.time.ZonedDateTime;
 
@@ -17,17 +21,17 @@ public class Vehicle
     private Double capacity;
     private VehicleType type;
 
-    public Vehicle(Set<Long> IDList) {
+    public Vehicle(Set<Long> IDList) throws EOFInputException {
         generateID(IDList);
         setCreationTime();
         setVehicleParams();
     }
 
-    public void update() {
+    public void update() throws EOFInputException {
         setVehicleParams();
     }
 
-    private void setVehicleParams() {
+    private void setVehicleParams() throws EOFInputException {
 
         System.out.println("Enter vehicle parameters:");
 
@@ -37,7 +41,7 @@ public class Vehicle
                 this.setName(UserInput.getString("vehicle name"));
                 flag = true;
             }
-            catch (Exception e) {
+            catch (IOException | NullException e) {
                 System.out.println(e.getMessage() + ". Impossible name. Please, enter valid value.");
             }
         }
@@ -49,8 +53,8 @@ public class Vehicle
                 coordinates.setXCoordinate(UserInput.getInteger("x coordinate"));
                 flag = true;
             }
-            catch (Exception e2) {
-                System.out.println(e2.getMessage() + ". Impossible x. Please, enter valid value.");
+            catch (IOException | InputException e) {
+                System.out.println(e.getMessage() + ". Impossible x. Please, enter valid value.");
             }
         }
 
@@ -60,8 +64,8 @@ public class Vehicle
                 coordinates.setYCoordinate(UserInput.getInteger("y coordinate"));
                 flag = true;
             }
-            catch (Exception e2) {
-                System.out.println(e2.getMessage() + ". Impossible y. Please, enter valid value.");
+            catch (IOException | InputException e) {
+                System.out.println(e.getMessage() + ". Impossible y. Please, enter valid value.");
             }
         }
 
@@ -72,8 +76,8 @@ public class Vehicle
                 setEnginePower(UserInput.getDouble("engine power"));
                 flag = true;
             }
-            catch (Exception e2) {
-                System.out.println(e2.getMessage() + ". Impossible engine power. Please, enter valid value.");
+            catch (IOException | InputException e) {
+                System.out.println(e.getMessage() + ". Impossible engine power. Please, enter valid value.");
             }
         }
 
@@ -83,8 +87,8 @@ public class Vehicle
                 setNumberOfWheels(UserInput.getLong("number of wheels"));
                 flag = true;
             }
-            catch (Exception e2) {
-                System.out.println(e2.getMessage() + ". Impossible number of wheels. Please, enter valid value.");
+            catch (IOException | InputException e) {
+                System.out.println(e.getMessage() + ". Impossible number of wheels. Please, enter valid value.");
             }
         }
 
@@ -94,8 +98,8 @@ public class Vehicle
                 setCapacity(UserInput.getDouble("capacity"));
                 flag = true;
             }
-            catch (Exception e2) {
-                System.out.println(e2.getMessage() + ". Impossible capacity. Please, enter valid value.");
+            catch (IOException | InputException e) {
+                System.out.println(e.getMessage() + ". Impossible capacity. Please, enter valid value.");
             }
         }
 
@@ -107,8 +111,8 @@ public class Vehicle
                 setVehicleType(UserInput.getString("type"));
                 flag = true;
             }
-            catch (Exception e2) {
-                System.out.println(e2.getMessage() + ". Wrong type. Please, enter valid value.");
+            catch (IOException | NullException | IllegalArgumentException e) {
+                System.out.println(e.getMessage() + ". Wrong type. Please, enter valid value.");
             }
         }
 

@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import lab5.VehicleCollectionApp.Exceptions.EOFInputException;
 import lab5.VehicleCollectionApp.Exceptions.NullException;
 import lab5.VehicleCollectionApp.Vehicle.Vehicle;
 
@@ -68,7 +69,7 @@ public class VehicleCollection {
         }
     }
 
-    public void insert(String newKey) throws CommandExecutionException {
+    public void insert(String newKey) throws CommandExecutionException, EOFInputException {
         Set<String> keys = this.collection.keySet();
         Set<Long> IDList = new HashSet<Long>();
 
@@ -84,8 +85,10 @@ public class VehicleCollection {
         this.collection.put(newKey, new Vehicle((Set) IDList));
     }
 
-    public void update(Long ID) throws CommandExecutionException {
+    public void update(Long ID) throws CommandExecutionException, EOFInputException {
         Set<String> keys = this.collection.keySet();
+
+        if(ID == null) throw new CommandExecutionException("Impossible ID.");
 
         String key = null;
         for (String k : keys) {
