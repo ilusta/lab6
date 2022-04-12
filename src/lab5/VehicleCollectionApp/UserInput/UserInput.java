@@ -9,15 +9,20 @@ import java.io.BufferedReader;
 
 public class UserInput
 {
-    static BufferedReader reader;
+    static BufferedReader activeReader;
+    private boolean EOF = false;
 
-    public static void setReader(BufferedReader reader) {
-        UserInput.reader = reader;
+    public static void setActiveReader(BufferedReader activeReader) {
+        UserInput.activeReader = activeReader;
+    }
+
+    public static BufferedReader getActiveReader(){
+        return activeReader;
     }
 
     public static void closeReader() {
         try {
-            UserInput.reader.close();
+            UserInput.activeReader.close();
         }
         catch (IOException e) {
             System.out.print(e.getMessage());
@@ -25,8 +30,10 @@ public class UserInput
     }
 
     public static String readLine() throws IOException, EOFInputException {
-        String str = UserInput.reader.readLine();
-        if(str == null) throw new EOFInputException("End of file");
+        String str = UserInput.activeReader.readLine();
+        if(str == null){
+            throw new EOFInputException("End of file");
+        }
         return str;
     }
 

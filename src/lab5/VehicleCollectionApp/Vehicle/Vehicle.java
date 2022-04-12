@@ -12,7 +12,7 @@ import java.time.format.DateTimeParseException;
 import java.util.Set;
 import java.time.ZonedDateTime;
 
-public class Vehicle
+public class Vehicle implements Comparable<Vehicle>
 {
     private Long id;
     private String name;
@@ -289,5 +289,23 @@ public class Vehicle
                 this.numberOfWheels.equals(other.numberOfWheels) &&
                 this.capacity.equals(other.capacity) &&
                 this.type.equals(other.type);
+    }
+
+    @Override
+    public int compareTo(Vehicle O) {
+        Double eP = this.getEnginePower();
+        if(eP == null)eP = (double)0;
+        Long nW = this.getNumberOfWheels();
+        if(nW == null)nW = (long)0;
+        Double OeP = O.getEnginePower();
+        if(OeP == null)OeP = (double)0;
+        Long OnW = O.getNumberOfWheels();
+        if(OnW == null)OnW = (long)0;
+        return this.getName().compareTo(O.getName()) +
+                this.getCoordinates().compareTo(O.getCoordinates()) +
+                eP.compareTo(OeP) +
+                nW.compareTo(OnW) +
+                this.getCapacity().compareTo(O.getCapacity()) +
+                this.getType().compareTo(O.getType());
     }
 }

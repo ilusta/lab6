@@ -10,7 +10,9 @@ import java.util.*;
 import lab5.VehicleCollectionApp.Exceptions.EOFInputException;
 import lab5.VehicleCollectionApp.Exceptions.InputException;
 import lab5.VehicleCollectionApp.Exceptions.NullException;
+import lab5.VehicleCollectionApp.UserInput.UserInput;
 import lab5.VehicleCollectionApp.Vehicle.Vehicle;
+import lab5.VehicleCollectionApp.Vehicle.VehicleType;
 
 
 public class VehicleCollection {
@@ -155,5 +157,94 @@ public class VehicleCollection {
 
     public Integer getSize() {
         return this.collection.size();
+    }
+
+    public Long getSumOfWheels(){
+        Set<String> keys = this.collection.keySet();
+
+        Long sum = (long)0;
+        for (String k : keys) {
+            Long x = collection.get(k).getNumberOfWheels();
+            if(x == null) x = (long)0;
+            sum += x;
+        }
+
+        return sum;
+    }
+
+    public void removeLower() throws EOFInputException, CommandExecutionException{
+        Vehicle x = new Vehicle(new HashSet<>());
+        int counter = 0;
+
+        Set<String> keys = this.collection.keySet();
+        if (keys.isEmpty()) throw new CommandExecutionException("Collection is empty");
+            for (String k : keys) {
+                if (x.compareTo(collection.get(k)) > 0) {
+                    collection.remove(k);
+                    counter++;
+                }
+            }
+        System.out.println(counter + " vehicles deleted.");
+    }
+
+    public void removeGreaterKey(String key) throws CommandExecutionException{
+        int counter = 0;
+
+        Set<String> keys = this.collection.keySet();
+        if (keys.isEmpty()) throw new CommandExecutionException("Collection is empty");
+
+            for (String k : keys) {
+                if (k.compareTo(key) > 0) {
+                    collection.remove(k);
+                    counter++;
+                }
+            }
+            System.out.println(counter + " vehicles deleted.");
+    }
+
+    public String maxByCoordinates() throws CommandExecutionException{
+        Set<String> keys = this.collection.keySet();
+        if (keys.isEmpty()) throw new CommandExecutionException("Collection is empty");
+
+            String max = "";
+            boolean flag = false;
+            for (String k : keys) {
+                if (flag == false) {
+                    max = k;
+                    flag = true;
+                }
+                if (collection.get(k).getCoordinates().compareTo(collection.get(max).getCoordinates()) > 0) {
+                    max = k;
+                }
+            }
+            return collection.get(max).toString();
+    }
+
+    public String filterByType() throws CommandExecutionException, EOFInputException{
+
+        VehicleType t = null;
+        boolean flag = false;
+        while (!flag) {
+            try {
+                System.out.println("Possible vehicle types:");
+                System.out.println(VehicleType.convertToString());
+                t = VehicleType.valueOf(UserInput.getString("type"));
+                flag = true;
+            }
+            catch (IOException | IllegalArgumentException e) {
+                System.out.println(e.getMessage() + ". Wrong type. Please, enter valid value.");
+            }
+        }
+
+        Set<String> keys = this.collection.keySet();
+        if (keys.isEmpty()) throw new CommandExecutionException("Collection is empty");
+
+        StringBuilder output = new StringBuilder();
+        for (String k : keys) {
+            if (collection.get(k).getType().equals(t)) {
+                output.append(collection.get(k).toString() + "\n");
+            }
+        }
+        return output.toString();
     }
 }

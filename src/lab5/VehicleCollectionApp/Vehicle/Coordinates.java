@@ -2,7 +2,7 @@ package lab5.VehicleCollectionApp.Vehicle;
 
 import lab5.VehicleCollectionApp.Exceptions.NullException;
 
-public class Coordinates
+public class Coordinates implements Comparable<Coordinates>
 {
     private Integer x, y;
 
@@ -27,5 +27,14 @@ public class Coordinates
     public String toString() {
         return "Coordinates{x=" + this.x +
                 ", y=" + this.y + "};";
+    }
+
+    @Override
+    public int compareTo(Coordinates O) {
+        Integer ty = getYCoordinate();
+        if(ty == null) ty = 0;
+        Integer oy = O.getYCoordinate();
+        if(oy == null) oy = 0;
+        return ty.compareTo(oy) + getXCoordinate().compareTo(O.getXCoordinate());
     }
 }

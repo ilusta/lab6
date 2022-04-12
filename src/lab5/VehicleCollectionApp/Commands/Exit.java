@@ -1,6 +1,5 @@
 package lab5.VehicleCollectionApp.Commands;
 
-import lab5.VehicleCollectionApp.Exceptions.InputException;
 
 public class Exit extends Command
 {

@@ -1,10 +1,7 @@
 package lab5.VehicleCollectionApp;
 
-import lab5.VehicleCollectionApp.Exceptions.EOFInputException;
-import lab5.VehicleCollectionApp.Exceptions.InputException;
 import lab5.VehicleCollectionApp.Commands.*;
 import java.util.HashMap;
-import java.util.ArrayList;
 import lab5.VehicleCollectionApp.UserInput.UserInput;
 
 import java.io.BufferedReader;
@@ -27,40 +24,31 @@ public class VehicleCollectionApp
             System.out.println(e.getMessage());
         }
 
-        final boolean runFlag = true;
-
-        UserInput.setReader(new BufferedReader(new InputStreamReader(System.in)));
-        final ArrayList<String> commandHistory = new ArrayList<String>();
-
-        final HashMap<String, Command> commandList = new HashMap<String, Command>();
+        final HashMap<String, Command> commandList = new HashMap<>();
         commandList.put("help", new Help(commandList));
         commandList.put("exit", new Exit());
-        commandList.put("history", new History(commandHistory));
+        commandList.put("history", new History());
         commandList.put("info", new Info(collection));
         commandList.put("show", new Show(collection));
         commandList.put("insert", new Insert(collection));
         commandList.put("update", new Update(collection));
         commandList.put("remove_key", new RemoveKey(collection));
+        commandList.put("sum_of_number_of_wheels", new SumOfNumberOfWheels(collection));
+        commandList.put("execute_script", new ExecuteScript(collection, commandList));
+        commandList.put("remove_lower", new RemoveLower(collection));
+        commandList.put("remove_greater_key", new RemoveGreaterKey(collection));
+        commandList.put("max_by_coordinates", new MaxByCoordinates(collection));
+        commandList.put("filter_by_type", new FilterByType(collection));
         commandList.put("clear", new Clear(collection));
         commandList.put("save", new Save(collection));
 
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        UserInput.setActiveReader(reader);
+        CommandExecutor executor = new CommandExecutor(commandList);
 
-        while (Exit.getRunFlag()) {
-            try {
-                String[] words = UserInput.readLine().split(" +");
-                Command command = commandList.get(words[0]);
-                if (command == null) throw new InputException("Unknown command. Use 'help' command to get list of supported commands.");
-                command.execute(words);
-                commandHistory.add(words[0]);
-            }
-            catch (Exception e) {
-                if(e.getClass() == EOFInputException.class) break;
-                System.out.println(e.getMessage());
-            }
-        }
-
-        System.out.println("Goodbye!");
+        executor.run();
 
         UserInput.closeReader();
+        System.out.println("Goodbye!");
     }
 }
