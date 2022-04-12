@@ -4,8 +4,7 @@ import lab5.VehicleCollectionApp.Exceptions.NullException;
 
 public class Coordinates
 {
-    private Integer x;
-    private int y;
+    private Integer x, y;
 
     public void setXCoordinate(Integer x) throws NullException {
         if (x == null) throw new NullException("X coordinate can not be NULL");
@@ -20,7 +19,7 @@ public class Coordinates
         return this.x;
     }
 
-    public int getYCoordinate() {
+    public Integer getYCoordinate() {
         return this.y;
     }
 

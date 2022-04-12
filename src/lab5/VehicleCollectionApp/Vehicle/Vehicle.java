@@ -7,12 +7,14 @@ import lab5.VehicleCollectionApp.Exceptions.NullException;
 import lab5.VehicleCollectionApp.UserInput.UserInput;
 
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Set;
 import java.time.ZonedDateTime;
 
 public class Vehicle
 {
-    private long id;
+    private Long id;
     private String name;
     private Coordinates coordinates;
     private ZonedDateTime creationDate;
@@ -20,6 +22,30 @@ public class Vehicle
     private Long numberOfWheels;
     private Double capacity;
     private VehicleType type;
+
+    public Vehicle(Long id,
+                   String name,
+                   Integer x,
+                   Integer y,
+                   String creationDate,
+                   Double enginePower,
+                   Long numberOfWheels,
+                   Double capacity,
+                   String type,
+                   Set<Long> IDList) throws InputException, DateTimeParseException
+    {
+        setID(id, IDList);
+        setName(name);
+        Coordinates coordinates = new Coordinates();
+        coordinates.setXCoordinate(x);
+        coordinates.setYCoordinate(y);
+        setCoordinates(coordinates);
+        setCreationTime(creationDate);
+        setEnginePower(enginePower);
+        setNumberOfWheels(numberOfWheels);
+        setCapacity(capacity);
+        setVehicleType(type);
+    }
 
     public Vehicle(Set<Long> IDList) throws EOFInputException {
         generateID(IDList);
@@ -121,7 +147,7 @@ public class Vehicle
 
     private void generateID(Set<Long> IDList) {
         boolean flag = true;
-        long id = 0;
+        Long id = (long)0;
 
         while (flag) {
             id = (long)(Math.random() * 10000.0);
@@ -135,6 +161,21 @@ public class Vehicle
         this.id = id;
     }
 
+    private void setID(Long ID, Set<Long> IDList) throws InputException{
+
+        if(ID == null) new NullException("ID can not be NULL.");
+
+        boolean flag = false;
+        for (Long existingID : IDList) {
+            if (existingID.equals(ID)) {
+                flag = true;
+            }
+        }
+        if(flag == true) throw new InputException("ID " + ID + " already exists.");
+
+        this.id = ID;
+    }
+
     private void setName(String name) throws NullException {
         if (name == null || name.equals("")) throw new NullException("Name can not be NULL or empty");
         this.name = name;
@@ -142,6 +183,10 @@ public class Vehicle
 
     private void setCreationTime() {
         this.creationDate = ZonedDateTime.now();
+    }
+
+    private void setCreationTime(String input) throws DateTimeParseException {
+        this.creationDate = ZonedDateTime.parse(input, DateTimeFormatter.ISO_ZONED_DATE_TIME);
     }
 
     private void setCoordinates(Coordinates coordinates) {
@@ -169,7 +214,7 @@ public class Vehicle
         this.type = VehicleType.valueOf(type);
     }
 
-    public long getID() {
+    public Long getID() {
         return this.id;
     }
 

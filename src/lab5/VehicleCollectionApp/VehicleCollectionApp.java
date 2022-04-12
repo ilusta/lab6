@@ -14,6 +14,7 @@ import java.io.InputStreamReader;
 public class VehicleCollectionApp
 {
     public void run() {
+        System.out.println("Welcome to the Vehicle Collection App!");
 
         final VehicleCollection collection = new VehicleCollection();
         try {
@@ -42,8 +43,6 @@ public class VehicleCollectionApp
         commandList.put("remove_key", new RemoveKey(collection));
         commandList.put("clear", new Clear(collection));
         commandList.put("save", new Save(collection));
-
-        System.out.println("Welcome to the Vehicle Collection App!");
 
 
         while (Exit.getRunFlag()) {
