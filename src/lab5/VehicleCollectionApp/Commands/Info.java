@@ -12,8 +12,7 @@ public class Info extends CollectionCommand
     @Override
     public void execute(String[] params) throws InputException {
         System.out.println("Information about Vehicle collection:");
-        System.out.println("Linked hash map collection");
-        System.out.println("Consists of " + collection.getSize() + " vehicles");
+        System.out.println(collection.info());
     }
 
     @Override

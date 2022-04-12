@@ -4,6 +4,8 @@ import lab5.VehicleCollectionApp.CSVParser.CSVParser;
 import lab5.VehicleCollectionApp.Exceptions.CommandExecutionException;
 
 import java.io.*;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 
@@ -18,9 +20,11 @@ import lab5.VehicleCollectionApp.Vehicle.VehicleType;
 public class VehicleCollection {
     LinkedHashMap<String, Vehicle> collection;
     String fileName = null;
+    private ZonedDateTime creationDate;
 
     public VehicleCollection() {
-        this.collection = new LinkedHashMap<String, Vehicle>();
+        this.collection = new LinkedHashMap<>();
+        this.creationDate = ZonedDateTime.now();
     }
 
     public void setFileName(String fileName) throws NullException {
@@ -33,6 +37,16 @@ public class VehicleCollection {
 
         InputStreamReader input = new InputStreamReader(new FileInputStream(fileName));
         Set<Long> IDList = new HashSet<>();
+
+        if(input.ready())
+        try {
+            ArrayList<String> params = CSVParser.readLine(input);
+            if (params.size() < 1) throw new InputException("Argument missing.");
+            this.creationDate = ZonedDateTime.parse(params.get(0), DateTimeFormatter.ISO_ZONED_DATE_TIME);
+        }
+        catch (Exception e) {
+            System.out.println("Loading error. " + e.getMessage());
+        }
 
         while(input.ready()) {
             try {
@@ -70,7 +84,7 @@ public class VehicleCollection {
 
     public void save() throws FileNotFoundException, IOException {
         BufferedOutputStream output = new BufferedOutputStream(new FileOutputStream(fileName));
-        String data = "";
+        StringBuilder data = new StringBuilder("\"" + this.getCreationDate().toString() + "\";\n");
 
         Set<String> keys = this.collection.keySet();
         for (String key : keys) {
@@ -84,10 +98,10 @@ public class VehicleCollection {
                     String.valueOf(collection.get(key).getNumberOfWheels()),
                     String.valueOf(collection.get(key).getCapacity()),
                     String.valueOf(collection.get(key).getType())};
-            data += CSVParser.convertToLine(line);
+            data.append(CSVParser.convertToLine(line));
         }
 
-        output.write(data.getBytes());
+        output.write(data.toString().getBytes());
         output.close();
 
         System.out.println("Collection saved to " + fileName);
@@ -99,7 +113,7 @@ public class VehicleCollection {
         if (keys.isEmpty()) System.out.println("Collection is empty");
 
         for (String key : keys) {
-            System.out.println("Key=" + key + ": " + this.collection.get(key).toString());
+            System.out.println("\tKey=" + key + ": " + this.collection.get(key).toString());
         }
     }
 
@@ -153,6 +167,7 @@ public class VehicleCollection {
     public void clear() {
         this.collection.clear();
         System.out.println("Collection is cleared");
+        this.creationDate = ZonedDateTime.now();
     }
 
     public Integer getSize() {
@@ -246,5 +261,15 @@ public class VehicleCollection {
             }
         }
         return output.toString();
+    }
+
+    public ZonedDateTime getCreationDate(){
+        return this.creationDate;
+    }
+
+    public String info(){
+        return "\tLinked hash map collection\n" +
+                "\tConsists of " + this.getSize() + " vehicles\n" +
+                "\tCreation date: " + this.getCreationDate().toString();
     }
 }

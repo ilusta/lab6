@@ -1,0 +1,552 @@
+@startuml
+
+/' diagram meta data start
+config=StructureConfiguration;
+{
+  "projectClassification": {
+    "searchMode": "OpenProject", // OpenProject, AllProjects
+    "includedProjects": "",
+    "pathEndKeywords": "*.impl",
+    "isClientPath": "",
+    "isClientName": "",
+    "isTestPath": "",
+    "isTestName": "",
+    "isMappingPath": "",
+    "isMappingName": "",
+    "isDataAccessPath": "",
+    "isDataAccessName": "",
+    "isDataStructurePath": "",
+    "isDataStructureName": "",
+    "isInterfaceStructuresPath": "",
+    "isInterfaceStructuresName": "",
+    "isEntryPointPath": "",
+    "isEntryPointName": "",
+    "treatFinalFieldsAsMandatory": false
+  },
+  "graphRestriction": {
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "removeByInheritance": "", // inheritance/annotation based filtering is done in a second step
+    "removeByAnnotation": "",
+    "removeByClassPackage": "", // cleanup the graph after inheritance/annotation based filtering is done
+    "removeByClassName": "",
+    "cutMappings": false,
+    "cutEnum": true,
+    "cutTests": true,
+    "cutClient": true,
+    "cutDataAccess": false,
+    "cutInterfaceStructures": false,
+    "cutDataStructures": false,
+    "cutGetterAndSetter": true,
+    "cutConstructors": true
+  },
+  "graphTraversal": {
+    "forwardDepth": 6,
+    "backwardDepth": 6,
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "hideMappings": false,
+    "hideDataStructures": false,
+    "hidePrivateMethods": true,
+    "hideInterfaceCalls": true, // indirection: implementation -> interface (is hidden) -> implementation
+    "onlyShowApplicationEntryPoints": false, // root node is included
+    "useMethodCallsForStructureDiagram": "ForwardOnly" // ForwardOnly, BothDirections, No
+  },
+  "details": {
+    "aggregation": "GroupByClass", // ByClass, GroupByClass, None
+    "showClassGenericTypes": true,
+    "showMethods": true,
+    "showMethodParameterNames": true,
+    "showMethodParameterTypes": true,
+    "showMethodReturnType": true,
+    "showPackageLevels": 2,
+    "showDetailedClassStructure": true
+  },
+  "rootClass": "lab5.lab5",
+  "extensionCallbackMethod": "" // qualified.class.name#methodName - signature: public static String method(String)
+}
+diagram meta data end '/
+
+
+
+digraph g {
+    rankdir="TB"
+    splines=polyline
+    
+
+'nodes 
+subgraph cluster_3313736 { 
+   	label=lab5
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   lab53313736[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)lab5</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ main(args: String[])</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+
+subgraph cluster_615269111 { 
+   	label=VehicleCollectionApp
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   CommandExecutor372486947[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)CommandExecutor</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   commandList: HashMap&lt;String, Command&gt; [0..*]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ run()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+EnvVarReader372486947[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)EnvVarReader</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ getValue(varName: String): String</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+VehicleCollection372486947[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)VehicleCollection</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   collection: LinkedHashMap&lt;String, Vehicle&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   fileName: String [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ clear()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ filterByType(): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ insert(newKey: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ maxByCoordinates(): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ open()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ removeGreaterKey(key: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ removeKey(removeKey: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ removeLower()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ save()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ show()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ update(ID: Long)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+VehicleCollectionApp372486947[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)VehicleCollectionApp</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ run()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+subgraph cluster_1276301416 { 
+   	label=UserInput
+	labeljust=l
+	fillcolor="#d8d8d8"
+	style=filled
+   
+   UserInput118213938[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)UserInput</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   EOF: boolean [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ closeReader()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getDouble(inputName: String): Double</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getInteger(inputName: String): Integer</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getLong(inputName: String): Long</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getString(inputName: String): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getWord(inputName: String): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ readLine(): String</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+
+subgraph cluster_1863370898 { 
+   	label=CSVParser
+	labeljust=l
+	fillcolor="#d8d8d8"
+	style=filled
+   
+   CSVParser1037081044[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)CSVParser</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ convertToLine(inputStr: String[]): String</TD></TR>
+<TR><TD ALIGN="LEFT" >- convertToValue(str: String): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ readLine(input: InputStreamReader): ArrayList&lt;String&gt;</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+
+subgraph cluster_1922854123 { 
+   	label=Vehicle
+	labeljust=l
+	fillcolor="#d8d8d8"
+	style=filled
+   
+   Coordinates806988037[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Coordinates</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   x: Integer [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   y: Integer [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ compareTo(O: Coordinates): int</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Vehicle806988037[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Vehicle</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   capacity: Double [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   coordinates: Coordinates [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   creationDate: ZonedDateTime [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   enginePower: Double [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   id: Long [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   name: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   numberOfWheels: Long [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   type: VehicleType [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ compareTo(O: Vehicle): int</TD></TR>
+<TR><TD ALIGN="LEFT" >- generateID(IDList: Set&lt;Long&gt;)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ update()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+
+subgraph cluster_2095676481 { 
+   	label=Commands
+	labeljust=l
+	fillcolor="#d8d8d8"
+	style=filled
+   
+   Clear1863566183[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Clear</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ execute(params: String[])</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+CollectionCommand1863566183[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)CollectionCommand</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+   collection: VehicleCollection [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ execute(p0: String[])</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Command1863566183[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Command</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ execute(p0: String[])</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+ExecuteScript1863566183[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)ExecuteScript</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+   collection: VehicleCollection [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   commandList: HashMap&lt;String, Command&gt; [0..*]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ execute(params: String[])</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Exit1863566183[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Exit</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ execute(params: String[])</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+FilterByType1863566183[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)FilterByType</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ execute(params: String[])</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Help1863566183[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Help</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   commandList: HashMap&lt;String, Command&gt; [0..*]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ execute(params: String[])</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+History1863566183[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)History</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ execute(params: String[])</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Info1863566183[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Info</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ execute(params: String[])</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Insert1863566183[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Insert</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ execute(params: String[])</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+MaxByCoordinates1863566183[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)MaxByCoordinates</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ execute(params: String[])</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+RemoveGreaterKey1863566183[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)RemoveGreaterKey</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ execute(params: String[])</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+RemoveKey1863566183[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)RemoveKey</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ execute(params: String[])</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+RemoveLower1863566183[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)RemoveLower</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ execute(params: String[])</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Save1863566183[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Save</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ execute(params: String[])</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Show1863566183[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Show</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ execute(params: String[])</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+SumOfNumberOfWheels1863566183[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)SumOfNumberOfWheels</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ execute(params: String[])</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Update1863566183[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Update</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ execute(params: String[])</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+} 
+
+'edges    
+Clear1863566183 -> VehicleCollection372486947[label="execute() -> clear()"];
+CollectionCommand1863566183 -> Clear1863566183[arrowhead=none, arrowtail=empty, dir=both];
+CollectionCommand1863566183 -> FilterByType1863566183[arrowhead=none, arrowtail=empty, dir=both];
+CollectionCommand1863566183 -> Info1863566183[arrowhead=none, arrowtail=empty, dir=both];
+CollectionCommand1863566183 -> Insert1863566183[arrowhead=none, arrowtail=empty, dir=both];
+CollectionCommand1863566183 -> MaxByCoordinates1863566183[arrowhead=none, arrowtail=empty, dir=both];
+CollectionCommand1863566183 -> RemoveGreaterKey1863566183[arrowhead=none, arrowtail=empty, dir=both];
+CollectionCommand1863566183 -> RemoveKey1863566183[arrowhead=none, arrowtail=empty, dir=both];
+CollectionCommand1863566183 -> RemoveLower1863566183[arrowhead=none, arrowtail=empty, dir=both];
+CollectionCommand1863566183 -> Save1863566183[arrowhead=none, arrowtail=empty, dir=both];
+CollectionCommand1863566183 -> Show1863566183[arrowhead=none, arrowtail=empty, dir=both];
+CollectionCommand1863566183 -> SumOfNumberOfWheels1863566183[arrowhead=none, arrowtail=empty, dir=both];
+CollectionCommand1863566183 -> Update1863566183[arrowhead=none, arrowtail=empty, dir=both];
+CollectionCommand1863566183 -> VehicleCollection372486947[label="collection
+[0..1]"];
+Command1863566183 -> CollectionCommand1863566183[arrowhead=none, arrowtail=empty, dir=both];
+Command1863566183 -> ExecuteScript1863566183[arrowhead=none, arrowtail=empty, dir=both];
+Command1863566183 -> Exit1863566183[arrowhead=none, arrowtail=empty, dir=both];
+Command1863566183 -> Help1863566183[arrowhead=none, arrowtail=empty, dir=both];
+Command1863566183 -> History1863566183[arrowhead=none, arrowtail=empty, dir=both];
+CommandExecutor372486947 -> Command1863566183[label="commandList
+[0..*]"];
+CommandExecutor372486947 -> UserInput118213938[label="run() -> readLine()"];
+ExecuteScript1863566183 -> Command1863566183[label="commandList
+[0..*]"];
+ExecuteScript1863566183 -> CommandExecutor372486947[label="execute() -> run()"];
+ExecuteScript1863566183 -> UserInput118213938[label="execute() -> closeReader()"];
+ExecuteScript1863566183 -> VehicleCollection372486947[label="collection
+[0..1]"];
+FilterByType1863566183 -> VehicleCollection372486947[label="execute() -> filterByType()"];
+Help1863566183 -> Command1863566183[label="commandList
+[0..*]"];
+Insert1863566183 -> VehicleCollection372486947[label="execute() -> insert()"];
+MaxByCoordinates1863566183 -> VehicleCollection372486947[label="execute() -> maxByCoordinates()"];
+RemoveGreaterKey1863566183 -> VehicleCollection372486947[label="execute() -> removeGreaterKey()"];
+RemoveKey1863566183 -> VehicleCollection372486947[label="execute() -> removeKey()"];
+RemoveLower1863566183 -> VehicleCollection372486947[label="execute() -> removeLower()"];
+Save1863566183 -> VehicleCollection372486947[label="execute() -> save()"];
+Show1863566183 -> VehicleCollection372486947[label="execute() -> show()"];
+Update1863566183 -> VehicleCollection372486947[label="execute() -> update()"];
+Vehicle806988037 -> Coordinates806988037[label="coordinates
+[0..1]"];
+VehicleCollection372486947 -> Coordinates806988037[label="maxByCoordinates() -> compareTo()"];
+VehicleCollection372486947 -> UserInput118213938[label="filterByType() -> getString()"];
+VehicleCollection372486947 -> Vehicle806988037[label="collection
+[0..*]"];
+VehicleCollectionApp372486947 -> CommandExecutor372486947[label="run() -> run()"];
+VehicleCollectionApp372486947 -> EnvVarReader372486947[label="run() -> getValue()"];
+VehicleCollectionApp372486947 -> UserInput118213938[label="run() -> closeReader()"];
+VehicleCollectionApp372486947 -> VehicleCollection372486947[label="run() -> open()"];
+lab53313736 -> VehicleCollectionApp372486947[label="main() -> run()"];
+    
+}
+@enduml

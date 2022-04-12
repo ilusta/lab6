@@ -3,14 +3,14 @@ package lab5.VehicleCollectionApp.UserInput;
 import lab5.VehicleCollectionApp.Exceptions.EOFInputException;
 import lab5.VehicleCollectionApp.Exceptions.InputException;
 
-import java.io.EOFException;
 import java.io.IOException;
 import java.io.BufferedReader;
+import java.util.ArrayList;
 
 public class UserInput
 {
     static BufferedReader activeReader;
-    private boolean EOF = false;
+    static public ArrayList<String> callList = new ArrayList<>();
 
     public static void setActiveReader(BufferedReader activeReader) {
         UserInput.activeReader = activeReader;
@@ -38,7 +38,7 @@ public class UserInput
     }
 
     public static String getString(String inputName) throws IOException, EOFInputException {
-        System.out.print("Enter " + inputName + ": ");
+        System.out.print("\tEnter " + inputName + ": ");
         return readLine();
     }
 

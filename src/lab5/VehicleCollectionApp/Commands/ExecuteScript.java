@@ -1,16 +1,14 @@
 package lab5.VehicleCollectionApp.Commands;
 
 import lab5.VehicleCollectionApp.CommandExecutor;
+import lab5.VehicleCollectionApp.Exceptions.CommandExecutionException;
 import lab5.VehicleCollectionApp.Exceptions.InputException;
 import lab5.VehicleCollectionApp.UserInput.UserInput;
 import lab5.VehicleCollectionApp.VehicleCollection;
-import lab5.VehicleCollectionApp.VehicleCollectionApp;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
-import java.util.Collection;
 import java.util.HashMap;
 
 public class ExecuteScript extends Command
@@ -30,9 +28,17 @@ public class ExecuteScript extends Command
         String fileName = params[1];
 
         try {
+            for(String s : UserInput.callList){
+                if(s.equalsIgnoreCase(fileName)){
+                    UserInput.callList.remove(fileName);
+                    throw new CommandExecutionException("Recursive script call detected");
+                }
+            }
             BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(fileName)));
             BufferedReader previousReader = UserInput.getActiveReader();
             UserInput.setActiveReader(reader);
+
+            UserInput.callList.add(fileName);
 
             System.out.println("Executing commands from file " + fileName);
             CommandExecutor executor = new CommandExecutor(commandList);
@@ -40,10 +46,11 @@ public class ExecuteScript extends Command
             System.out.println("Reached end of file.");
 
             UserInput.closeReader();
+            UserInput.callList.remove(fileName);
             UserInput.setActiveReader(previousReader);
         }
         catch (Exception e){
-            System.out.print("Can not read " + fileName + ". " + e.getMessage());
+            System.out.println("Error occurred while executing commands from file " + fileName + ". " + e.getMessage());
         }
 
     }

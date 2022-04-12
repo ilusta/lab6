@@ -13,7 +13,7 @@ public class Help extends Command
 
     @Override
     public void execute(String[] params) throws InputException {
-        commandList.forEach((key, command) -> System.out.println(key + " - " + command.getHelp()));
+        commandList.forEach((key, command) -> System.out.println("\t" + key + " - " + command.getHelp()));
     }
 
     @Override

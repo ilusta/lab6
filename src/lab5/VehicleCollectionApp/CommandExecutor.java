@@ -14,14 +14,13 @@ public class CommandExecutor {
     HashMap<String, Command> commandList;
 
     public CommandExecutor(HashMap<String, Command> commandList){
-        //StackTraceElement[] stack = Thread.currentThread().getStackTrace();
-        //for(StackTraceElement x : stack);
         this.commandList = commandList;
     }
 
     public void run(){
         while (Exit.getRunFlag()) {
             try {
+                System.out.print("->");
                 String[] words = UserInput.readLine().split(" +");
                 if (words.length == 0)
                     throw new InputException("Unknown command. Use 'help' command to get list of supported commands.");
