@@ -1,2 +1,2 @@
-# lab5
-Labarotary work #5. Java course at ITMO University.
+# lab6
+Labarotary work #6. Java course at ITMO University.

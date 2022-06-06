@@ -1,5 +1,5 @@
-lab5.VehicleCollectionApp
-lab5.VehicleCollectionApp.Commands
-lab5.VehicleCollectionApp.Exceptions
-lab5.VehicleCollectionApp.UserInput
-lab5.VehicleCollectionApp.Vehicle
+lab6.Client.VehicleCollectionClient
+lab6.Commands
+lab6.Exceptions
+lab6.UserInput
+lab6.Vehicle
