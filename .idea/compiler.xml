@@ -14,6 +14,7 @@
       <module name="client (1)" target="8" />
       <module name="client (2)" target="8" />
       <module name="lab6" target="8" />
+      <module name="server" target="8" />
     </bytecodeTargetLevel>
   </component>
 </project>

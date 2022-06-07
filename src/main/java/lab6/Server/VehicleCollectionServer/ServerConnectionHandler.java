@@ -13,8 +13,12 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 
 import org.apache.commons.lang3.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ServerConnectionHandler {
+
+    private static final Logger logger = LogManager.getLogger(VehicleCollectionServer.class);
 
     static boolean connected = false;
     static boolean serverStarted = false;
@@ -46,15 +50,15 @@ public class ServerConnectionHandler {
                 txBuffer = ByteBuffer.allocate(2048);
                 rxBuffer = ByteBuffer.allocate(2048);
 
-                System.out.println("Server is started at " + inetAddress.getAddress() + ":" + serverSocketChannel.socket().getLocalPort());
+                logger.info("Server is started at " + inetAddress.getAddress() + ":" + serverSocketChannel.socket().getLocalPort());
                 serverStarted = true;
                 break;
             } catch (Exception e) {
                 if (e.getClass() == EOFInputException.class){
                     break;
                 }
-                System.out.println("Unable to start server: " + e.getMessage());
-                System.out.println("Please, try again.");
+                logger.error("Unable to start server: " + e.getMessage());
+                logger.info("Please, try again.");
             }
         }
     }
@@ -72,8 +76,8 @@ public class ServerConnectionHandler {
             if(socketChannel != null) {
                 socketChannel.configureBlocking(false);
 
-                System.out.println("Client connecting");
-                System.out.println("\tChannel has been created: " + socketChannel);
+                logger.info("Client connecting");
+                logger.info("\tChannel has been created: " + socketChannel);
 
                 txBuffer.clear();
                 rxBuffer.clear();
@@ -96,13 +100,13 @@ public class ServerConnectionHandler {
                     }
                 } while(inputStream == null);
 
-                System.out.println("\tClient has connected");
+                logger.info("\tClient has connected");
                 connected = true;
             }
         } catch (Exception e) {
             connected = false;
             if (!(e instanceof SocketTimeoutException)) {
-                System.out.println("\tUnable to accept connection: " + e);
+                logger.error("\tUnable to accept connection: " + e);
             }
         }
     }
@@ -139,10 +143,10 @@ public class ServerConnectionHandler {
         }
         catch (Exception e){
             if (e instanceof IOException || e instanceof NullPointerException) {
-                System.out.println("Connection with client is lost: " + e.getMessage());
+                logger.error("Connection with client is lost: " + e.getMessage());
                 disconnect();
             } else {
-                System.out.println("Error occurred while communicating with client: " + e.getMessage());
+                logger.error("Error occurred while communicating with client: " + e.getMessage());
             }
         }
     }
@@ -163,7 +167,7 @@ public class ServerConnectionHandler {
             baos.reset();
         }
         catch(Exception e){
-            System.out.println("Error occurred while serializing object: ");
+            logger.error("Error occurred while serializing object: ");
         }
     }
 
@@ -187,7 +191,7 @@ public class ServerConnectionHandler {
             rxBuffer.compact();
         }
         catch(Exception e){
-            System.out.println("Error occurred while deserializing object: " + e.getMessage());
+            logger.error("Error occurred while deserializing object: " + e.getMessage());
         }
 
         return obj;

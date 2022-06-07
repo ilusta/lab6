@@ -3,20 +3,25 @@ package lab6.Server.VehicleCollectionServer;
 import lab6.Commands.*;
 import lab6.Exceptions.CommandExecutionException;
 import lab6.Exceptions.EOFInputException;
+import lab6.Server.lab6Server;
 import lab6.UserInput.UserInput;
 
 import java.io.*;
 import java.util.ArrayList;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 public class VehicleCollectionServer {
+
+    private static final Logger logger = LogManager.getLogger(VehicleCollectionServer.class);
 
     final ArrayList<Command> commandList = new ArrayList<>();
     final ArrayList<Command> clientCommandList = new ArrayList<>();
 
     public void run() {
-        System.out.println("Welcome to the Vehicle Collection Server!");
+        logger.info("Welcome to the Vehicle Collection Server!");
         UserInput.setDefaultReader(new BufferedReader(new InputStreamReader(System.in)));
 
         final VehicleCollection collection = new VehicleCollection();
@@ -26,8 +31,7 @@ public class VehicleCollectionServer {
             collection.setFileName(file);
             collection.open();
         } catch (Exception e) {
-            System.out.println("Error occurred while reading file:");
-            System.out.println(e.getMessage());
+            logger.error("Error occurred while reading file: " + e.getMessage());
         }
 
         commandList.add(new Help());
@@ -71,20 +75,20 @@ public class VehicleCollectionServer {
 
         ServerConnectionHandler.startServer();
 
-        System.out.println("Initialization complete");
+        logger.info("Initialization complete");
         while(Exit.getRunFlag() && ServerConnectionHandler.isServerStarted()) {
 
             if (!ServerConnectionHandler.isConnected()) {
                 ServerConnectionHandler.listenForConnection();
 
                 if(ServerConnectionHandler.isConnected()) {
-                    System.out.println("Sending available commands to client");
+                    logger.info("Sending available commands to client");
                     for (Object c : clientCommandList) {
                         ServerConnectionHandler.write(c);
                         ServerConnectionHandler.update();
                     }
                     ServerConnectionHandler.write("End");
-                    System.out.println("\tDone");
+                    logger.info("\tDone");
                 }
             } else {
                 try{
@@ -92,37 +96,40 @@ public class VehicleCollectionServer {
 
                     Command command = (Command) ServerConnectionHandler.read();
                     if(command != null) {
-                        System.out.println("Received command from client");
+                        logger.info("Received command from client");
                         if (command instanceof Exit)
                             throw new CommandExecutionException("\tDeprecated command");
 
-                        System.out.println("\tExecuting command");
+                        logger.info("\tExecuting command");
                         ServerConnectionHandler.write(executor.execute(command));
-                        System.out.println("\tResponse send to client");
+                        logger.info("\tResponse send to client");
                     }
                 } catch (Exception e) {
-                    System.out.println("Error occurred while executing client`s command: " + e.getMessage());
+                    logger.error("Error occurred while executing client`s command: " + e.getMessage());
                 }
             }
 
             try {
                 if (UserInput.available()) {
+                    logger.info("Reading local command");
                     System.out.println(executor.execute(builder.build()));
+                    logger.info("Local command executed");
                 }
             } catch (Exception e) {
                 if (e instanceof EOFInputException) break;
-                System.out.println("Error while executing command: " + e.toString());
+                logger.error("Error while executing command: " + e.toString());
             }
         }
 
         try{
-        System.out.println(collection.save());
+            logger.info(collection.save());
         } catch(Exception e){
-            System.out.println("Error occurred while saving collection: " + e.getMessage());
+            logger.error("Error occurred while saving collection: " + e.getMessage());
         }
+
         ServerConnectionHandler.disconnect();
         UserInput.removeReader();
-        System.out.println("Goodbye!");
+        logger.info("Goodbye!");
     }
 }
 

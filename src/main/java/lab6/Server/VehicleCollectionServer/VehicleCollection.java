@@ -17,9 +17,14 @@ import lab6.UserInput.UserInput;
 import lab6.Vehicle.Coordinates;
 import lab6.Vehicle.Vehicle;
 import lab6.Vehicle.VehicleType;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 public class VehicleCollection {
+
+    private static final Logger logger = LogManager.getLogger(VehicleCollectionServer.class);
+
     LinkedHashMap<String, Vehicle> collection;
     String fileName = null;
     private ZonedDateTime creationDate;
@@ -35,7 +40,7 @@ public class VehicleCollection {
     }
 
     public void open() throws SecurityException, IOException, InputException, DateTimeParseException {
-        System.out.println("Loading collection from " + fileName);
+        logger.info("Loading collection from " + fileName);
 
         InputStreamReader input = new InputStreamReader(new FileInputStream(fileName));
         Set<Long> IDList = new HashSet<>();
@@ -47,7 +52,7 @@ public class VehicleCollection {
             this.creationDate = ZonedDateTime.parse(params.get(0), DateTimeFormatter.ISO_ZONED_DATE_TIME);
         }
         catch (Exception e) {
-            System.out.println("Loading error. " + e.getMessage());
+            logger.error("Loading error. " + e.getMessage());
         }
 
         while(input.ready()) {
@@ -79,12 +84,12 @@ public class VehicleCollection {
             }
             catch (Exception e)
             {
-                System.out.println("Loading error. " + e.getMessage());
+                logger.error("Loading error. " + e.getMessage());
             }
         }
 
         input.close();
-        System.out.println("Load completed: " + collection.size() + " vehicles loaded.");
+        logger.info("Load completed: " + collection.size() + " vehicles loaded.");
     }
 
     public String save() throws IOException {
