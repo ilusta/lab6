@@ -9,6 +9,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 
+
 public class VehicleCollectionServer {
 
     final ArrayList<Command> commandList = new ArrayList<>();
@@ -78,13 +79,17 @@ public class VehicleCollectionServer {
 
                 if(ServerConnectionHandler.isConnected()) {
                     System.out.println("Sending available commands to client");
-                    for (Command c : clientCommandList)
+                    for (Object c : clientCommandList) {
                         ServerConnectionHandler.write(c);
+                        ServerConnectionHandler.update();
+                    }
                     ServerConnectionHandler.write("End");
                     System.out.println("\tDone");
                 }
             } else {
                 try{
+                    ServerConnectionHandler.update();
+
                     Command command = (Command) ServerConnectionHandler.read();
                     if(command != null) {
                         System.out.println("Received command from client");

@@ -4,6 +4,7 @@ import java.io.*;
 
 import lab6.Commands.*;
 import lab6.Exceptions.CommandExecutionException;
+import lab6.Exceptions.ConnectionException;
 import lab6.Exceptions.EOFInputException;
 import lab6.Commands.CommandBuilder;
 import lab6.Commands.CommandExecutor;
@@ -62,6 +63,7 @@ public class VehicleCollectionClient
                     break;
                 }
                 System.out.println("Error: " + e.getMessage());
+                if(e instanceof ConnectionException) disconnect();
             }
         }
 
@@ -105,7 +107,7 @@ public class VehicleCollectionClient
             System.out.println("\t" + counter + " commands received");
         }
         catch (Exception e){
-            System.out.println("\tError occurred while connecting to server: " + e.getMessage());
+            System.out.println("\tError occurred while connecting to server: " + e);
             disconnect();
         }
     }

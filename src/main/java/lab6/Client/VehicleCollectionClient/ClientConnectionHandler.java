@@ -1,6 +1,7 @@
 package lab6.Client.VehicleCollectionClient;
 
 import lab6.Exceptions.CommandExecutionException;
+import lab6.Exceptions.ConnectionException;
 import lab6.Exceptions.InputException;
 
 import java.io.*;
@@ -39,7 +40,7 @@ public class ClientConnectionHandler {
             socket = new Socket(inetAddress, port);
             System.out.println("\tSocket has been created: " + socket);
 
-            socket.setSoTimeout(20000);
+            socket.setSoTimeout(600000);
             outputStream = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
             outputStream.flush();
             inputStream = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
@@ -71,14 +72,15 @@ public class ClientConnectionHandler {
     }
 
 
-    public static void write(Object obj) throws RuntimeException{
+    public static void write(Object obj) throws ConnectionException{
         try {
             outputStream.writeObject(obj);
+            outputStream.reset();
             outputStream.flush();
         }
         catch(Exception e){
             if(e instanceof IOException || e instanceof NullPointerException){
-                throw new RuntimeException("Connection with server is lost.");
+                throw new ConnectionException("Connection with server is lost.");
             }
             else {
                 System.out.println("Error occurred while sending object to server: " + e.getMessage());
@@ -87,14 +89,14 @@ public class ClientConnectionHandler {
     }
 
 
-    public static Object read() throws RuntimeException{
+    public static Object read() throws ConnectionException{
         Object obj = null;
         try{
             obj = inputStream.readObject();
         }
         catch(Exception e){
             if(e instanceof IOException || e instanceof NullPointerException){
-                throw new RuntimeException("Connection with server is lost.");
+                throw new ConnectionException("Connection with server is lost.");
             }
             else {
                 System.out.println("Error occurred while reading object from server: " + e.getMessage());

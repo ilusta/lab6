@@ -7,15 +7,6 @@ import lab6.Server.VehicleCollectionServer.VehicleCollection;
 
 public class FilterByType extends CollectionCommand
 {
-
-    public FilterByType(){
-
-    }
-
-    private FilterByType(FilterByType cmd){
-        this.type = cmd.type;
-    }
-
     @Override
     public String getName() {
         return "filter_by_type";
@@ -39,7 +30,7 @@ public class FilterByType extends CollectionCommand
     public Command build(String[] params) throws InputException, EOFInputException {
         if (params.length < 2) throw new InputException("Vehicle type is missing");
         type = params[1];
-        return new FilterByType(this);
+        return this;
     }
 
     @Override
