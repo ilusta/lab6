@@ -25,6 +25,15 @@ public class VehicleCollection {
 
     private static final Logger logger = LogManager.getLogger(VehicleCollectionServer.class);
 
+    protected class vehicleWithKey{
+        protected String key;
+        protected Vehicle vehicle;
+        protected vehicleWithKey(String key, Vehicle vehicle){
+            this.key = key;
+            this.vehicle = vehicle;
+        }
+    }
+
     LinkedHashMap<String, Vehicle> collection;
     String fileName = null;
     private ZonedDateTime creationDate;
@@ -118,13 +127,17 @@ public class VehicleCollection {
     }
 
     public String show() throws CommandExecutionException {
-        Set<String> keys = this.collection.keySet();
+        StringBuilder message = new StringBuilder("Vehicles in the collection:\n");
 
-        if (keys.isEmpty()) return "Collection is empty";
+        if(collection.isEmpty())
+            message.append("\tCollection is empty\n");
+        else {
+            Collection<String> keys = collection.keySet();
+            Collection<vehicleWithKey> list = new ArrayList<>();
+            for (String k : keys) list.add(new vehicleWithKey(k, collection.get(k)));
 
-        StringBuilder message = new StringBuilder();
-        for (String key : keys) {
-            message.append("\tKey=").append(key).append(": ").append(this.collection.get(key).toString()).append("\n\n");
+            list.stream().sorted(Comparator.comparing(veh -> veh.vehicle)).forEach(veh ->
+                    message.append("\tKey=" + veh.key + ": " + veh.vehicle.toString() + "\n\n"));
         }
         return message.toString();
     }

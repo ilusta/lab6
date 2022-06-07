@@ -40,7 +40,7 @@ public class ClientConnectionHandler {
             socket = new Socket(inetAddress, port);
             System.out.println("\tSocket has been created: " + socket);
 
-            socket.setSoTimeout(10000);
+            socket.setSoTimeout(60000);
             outputStream = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
             outputStream.flush();
             inputStream = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));

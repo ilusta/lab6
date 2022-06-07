@@ -36,7 +36,7 @@ public class Update extends CollectionCommand
     public Command build(String[] params) throws InputException, EOFInputException{
         if (params.length < 2) throw new InputException("Argument is missing");
         try {
-            Long ID = Long.parseLong(params[1]);
+            ID = Long.parseLong(params[1]);
         }
         catch(NumberFormatException e)
         {

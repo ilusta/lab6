@@ -46,9 +46,8 @@ public class ServerConnectionHandler {
                 serverSocketChannel.socket().bind(inetAddress);
                 serverSocketChannel.configureBlocking(false);
 
-                baos = new ByteArrayOutputStream();
-                txBuffer = ByteBuffer.allocate(2048);
-                rxBuffer = ByteBuffer.allocate(2048);
+                txBuffer = ByteBuffer.allocate(1000);
+                rxBuffer = ByteBuffer.allocate(1000);
 
                 logger.info("Server is started at " + inetAddress.getAddress() + ":" + serverSocketChannel.socket().getLocalPort());
                 serverStarted = true;
@@ -79,6 +78,7 @@ public class ServerConnectionHandler {
                 logger.info("Client connecting");
                 logger.info("\tChannel has been created: " + socketChannel);
 
+                baos = new ByteArrayOutputStream();
                 txBuffer.clear();
                 rxBuffer.clear();
 
@@ -112,17 +112,18 @@ public class ServerConnectionHandler {
     }
 
 
-    public static String disconnect(){
-        StringBuilder message = new StringBuilder("Disconnecting from clients:\n");
+    public static void disconnect(){
+        logger.info("Disconnecting from clients:");
         try {
             socketChannel.close();
+            inputStream.close();
+            outputStream.close();
             connected = false;
-            message.append("\tDisconnected\n");
+            logger.info("\tDisconnected");
         }
         catch(Exception e){
-            message.append("\tError occurred while closing socket: " + e.getMessage() + "\n");
+            logger.error("\tError occurred while closing socket: " + e.getMessage());
         }
-        return message.toString();
     }
 
 
@@ -157,13 +158,21 @@ public class ServerConnectionHandler {
             outputStream.writeObject(obj);
             outputStream.reset();
             outputStream.flush();
-            if(baos.size() > txBuffer.remaining()){
-                baos.reset();
+            int written = 0;
+            while(baos.size() - written > 0){
+                /*baos.reset();
                 outputStream.writeObject("Unable to send response. Message is too big.\n");
                 outputStream.reset();
                 outputStream.flush();
+                */
+                int s = baos.size();
+                int r = txBuffer.remaining();
+                int a = Math.min(s-written, r);
+                txBuffer.put(baos.toByteArray(), written, a);
+                written += a;
+                update();
             }
-            txBuffer.put(baos.toByteArray());
+            //txBuffer.put(baos.toByteArray());
             baos.reset();
         }
         catch(Exception e){
@@ -177,6 +186,12 @@ public class ServerConnectionHandler {
         try {
             rxBuffer.flip();
             if(rxBuffer.remaining() != 0) {
+
+                /*if(rxBufer. = -84 &&
+                bytes[1] = -19;
+                bytes[2] = 0;
+                bytes[3] = 5;)
+                */
                 byte[] bytes = new byte[rxBuffer.remaining()+6];
                 for (int i = rxBuffer.position(); i < rxBuffer.limit(); i++)
                     bytes[i+4] = rxBuffer.get(i);
